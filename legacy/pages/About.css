@@ -1,0 +1,31 @@
+.about-container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 16px;
+  color: #333333;
+}
+
+.about-container h1 {
+  font-size: 1.8rem;
+  margin-bottom: 12px;
+  color: #1976d2;
+}
+
+.about-container h2 {
+  font-size: 1.4rem;
+  margin-top: 20px;
+  margin-bottom: 8px;
+}
+
+.about-container p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+@media (min-width: 768px) {
+  .about-container {
+    max-width: 768px;
+    padding: 24px;
+  }
+}

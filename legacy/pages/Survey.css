@@ -1,0 +1,64 @@
+.survey-container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 16px;
+  color: #333333;
+}
+
+.survey-container h1 {
+  font-size: 1.8rem;
+  margin-bottom: 12px;
+  color: #1976d2;
+}
+
+.survey-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.survey-form label {
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+
+.survey-form input[type="text"] {
+  padding: 8px 12px;
+  font-size: 1rem;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+
+.dummy-questions {
+  margin-bottom: 24px;
+}
+
+.dummy-questions h2 {
+  font-size: 1.4rem;
+  margin-bottom: 8px;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+}
+
+.options label {
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
+
+.submit-btn {
+  align-self: flex-start;
+}
+
+/* 데스크탑 스타일 */
+@media (min-width: 768px) {
+  .survey-container {
+    max-width: 768px;
+    padding: 24px;
+  }
+  .survey-form {
+    max-width: 600px;
+  }
+}

@@ -1,0 +1,26 @@
+.progressBar {
+  display: flex;
+  gap: 4px;
+  padding: 10px 5%;
+}
+
+.step {
+  flex: 1;
+  height: 6px;
+  background-color: #e0e0e0;
+  transition: background-color 0.3s;
+}
+
+.step:first-child {
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+.step:last-child {
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.active {
+  background-color: #333;
+}

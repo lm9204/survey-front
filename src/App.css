@@ -1,0 +1,23 @@
+/* global.css */
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Apple SD Gothic Neo', sans-serif;
+  background-color: #fafafa;
+  color: #222;
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  width: 100%;
+  max-width: 393px; /* 아이폰 16 사이즈 기준 (393px) */
+  min-height: 100vh;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  padding: 20px;
+  box-sizing: border-box;
+}

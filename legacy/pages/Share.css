@@ -1,0 +1,58 @@
+.share-container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 16px;
+  color: #333333;
+  text-align: center;
+}
+
+.share-container h1 {
+  font-size: 1.8rem;
+  margin-bottom: 12px;
+  color: #1976d2;
+}
+
+.result-card {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.result-card p {
+  font-size: 1rem;
+  margin-bottom: 8px;
+  word-break: keep-all;
+}
+
+.type-image {
+  margin: 12px 0;
+}
+
+.type-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.description {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #555555;
+}
+
+.again-btn {
+  /* main-content의 버튼 스타일을 상속 */
+}
+
+/* 데스크탑 스타일 */
+@media (min-width: 768px) {
+  .share-container {
+    max-width: 768px;
+    padding: 24px;
+  }
+  .result-card {
+    padding: 24px;
+  }
+}
