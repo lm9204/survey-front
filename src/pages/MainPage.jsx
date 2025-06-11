@@ -19,8 +19,11 @@ function MainPage() {
         <h2>3가지 기준으로 나를 알아보는<br /><b>여가 성향 진단</b></h2>
         <h1>Activity-I</h1>
         <p className={styles.subtext}>
-          총 8가지 유형 중 나의 성향을 파악하고,<br />
-          더 나에게 맞는 여가 활동을 탐색해보세요.
+          총 8가지 유형 중 <br />
+          나의 성향을 파악하고,<br />
+
+          더 나에게 맞는 <br />
+          여가 활동을 탐색해보세요.
         </p>
         <button className={styles.startButton} onClick={handleStartSurvey}>START</button>
       </div>

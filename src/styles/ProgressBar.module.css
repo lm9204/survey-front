@@ -1,7 +1,8 @@
 .progressBar {
+  margin-top: 20px;
   display: flex;
   gap: 4px;
-  padding: 10px 5%;
+  padding: 10px 12%;
 }
 
 .step {

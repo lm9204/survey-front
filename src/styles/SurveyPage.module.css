@@ -4,3 +4,20 @@
   margin: 20px 10px 16px;
   font-weight: bold;
 }
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #ffffff;
+  min-height: 100vh;
+}
+
+.container {
+  width: 100%;
+  max-width: 393px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  box-sizing: border-box;
+}
