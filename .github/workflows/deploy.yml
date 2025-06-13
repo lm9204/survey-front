@@ -33,6 +33,7 @@ jobs:
           host: ${{ secrets.ORACLE_HOST }}
           username: ${{ secrets.ORACLE_USER }}
           key: ${{ secrets.ORACLE_KEY }}
+          port: 22
           script: |
             mkdir -p $REMOTE_PATH/${{ env.RELEASE_NAME }}
 
@@ -42,6 +43,7 @@ jobs:
           host: ${{ secrets.ORACLE_HOST }}
           username: ${{ secrets.ORACLE_USER }}
           key: ${{ secrets.ORACLE_KEY }}
+          port: 22
           source: "build/*"
           target: "$REMOTE_PATH/${{ env.RELEASE_NAME }}"
           strip_components: 1
@@ -52,6 +54,7 @@ jobs:
           host: ${{ secrets.ORACLE_HOST }}
           username: ${{ secrets.ORACLE_USER }}
           key: ${{ secrets.ORACLE_KEY }}
+          port: 22
           script: |
             ln -sfn $REMOTE_PATH/${{ env.RELEASE_NAME }} /var/www/current
             echo "Deployed to $REMOTE_PATH/${{ env.RELEASE_NAME }}"
