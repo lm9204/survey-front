@@ -10,6 +10,7 @@ jobs:
 
     env:
       RELEASE_NAME: ${{ github.run_id }}_${{ github.run_number }}
+      USERNAME: ${{ secrets.ORACLE_USER }}
       REMOTE_PATH: /var/www/releases
       CURRENT_PATH: /var/www/current
 
@@ -36,7 +37,6 @@ jobs:
           key: ${{ secrets.ORACLE_KEY }}
           port: 22
           script: |
-            USERNAME=$(whoami)
             sudo mkdir -p $REMOTE_PATH/$RELEASE_NAME
             sudo chown -R $USERNAME:$USERNAME $REMOTE_PATH
 
