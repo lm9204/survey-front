@@ -37,7 +37,7 @@ jobs:
           port: 22
           script: |
             sudo mkdir -p $REMOTE_PATH/$RELEASE_NAME
-            sudo chown -R $USER:$USER $REMOTE_PATH
+            sudo chown -R ${{ secrets.ORACLE_USER }}:${{ secrets.ORACLE_USER }} $REMOTE_PATH
 
       - name: Upload build folder to Oracle server
         uses: appleboy/scp-action@v0.1.7
