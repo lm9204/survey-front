@@ -2,28 +2,50 @@ name: Deploy Frontend to Oracle Server
 
 on:
   push:
-    branches: [main] 
+    branches: [main]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    env:
+      RELEASE_NAME: ${{ github.run_id }}_${{ github.run_number }}
+      REMOTE_PATH: /var/www/releases
+
     steps:
-      - name: Create release folder with timestamp
-        run: |
-          TIMESTAMP=$(date +'%Y%m%d_%H%M')
-          echo "RELEASE_DIR=/var/www/releases/$TIMESTAMP" >> $GITHUB_ENV
-      
-      - name: Upload build to Oracle server
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build React app
+        run: npm run build
+
+      - name: Create release directory on Oracle server
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.ORACLE_HOST }}
+          username: ${{ secrets.ORACLE_USER }}
+          key: ${{ secrets.ORACLE_KEY }}
+          script: |
+            mkdir -p $REMOTE_PATH/${{ env.RELEASE_NAME }}
+
+      - name: Upload build folder to Oracle server
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.ORACLE_HOST }}
           username: ${{ secrets.ORACLE_USER }}
           key: ${{ secrets.ORACLE_KEY }}
           source: "build/*"
-          target: "${{ env.RELEASE_DIR }}"
+          target: "$REMOTE_PATH/${{ env.RELEASE_NAME }}"
           strip_components: 1
-      
+
       - name: Point current symlink to new release
         uses: appleboy/ssh-action@v0.1.10
         with:
@@ -31,4 +53,5 @@ jobs:
           username: ${{ secrets.ORACLE_USER }}
           key: ${{ secrets.ORACLE_KEY }}
           script: |
-            ln -sfn ${{ env.RELEASE_DIR }} /var/www/current
+            ln -sfn $REMOTE_PATH/${{ env.RELEASE_NAME }} /var/www/current
+            echo "Deployed to $REMOTE_PATH/${{ env.RELEASE_NAME }}"
