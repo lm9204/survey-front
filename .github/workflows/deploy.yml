@@ -1,0 +1,34 @@
+name: Deploy Frontend to Oracle Server
+
+on:
+  push:
+    branches: [main] 
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Create release folder with timestamp
+        run: |
+          TIMESTAMP=$(date +'%Y%m%d_%H%M')
+          echo "RELEASE_DIR=/var/www/releases/$TIMESTAMP" >> $GITHUB_ENV
+      
+      - name: Upload build to Oracle server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.ORACLE_HOST }}
+          username: ${{ secrets.ORACLE_USER }}
+          key: ${{ secrets.ORACLE_KEY }}
+          source: "build/*"
+          target: "${{ env.RELEASE_DIR }}"
+          strip_components: 1
+      
+      - name: Point current symlink to new release
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.ORACLE_HOST }}
+          username: ${{ secrets.ORACLE_USER }}
+          key: ${{ secrets.ORACLE_KEY }}
+          script: |
+            ln -sfn ${{ env.RELEASE_DIR }} /var/www/current
