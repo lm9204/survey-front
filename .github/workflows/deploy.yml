@@ -36,7 +36,7 @@ jobs:
           key: ${{ secrets.ORACLE_KEY }}
           port: 22
           script: |
-            USERNAME=${{ secrets.ORACLE_USER }}
+            USERNAME=$(whoami)
             sudo mkdir -p $REMOTE_PATH/$RELEASE_NAME
             sudo chown -R $USERNAME:$USERNAME $REMOTE_PATH
 
