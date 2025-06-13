@@ -16,7 +16,6 @@ function ResultPage() {
   };
 
   const dummyType = '창의적인 탐험가형';
-  const dummyDesc = '새로운 경험을 즐기며, 도전적인 활동을 좋아하는 타입입니다. 다양한 사람과 소통하는 것도 즐깁니다.';
 
   return (
     <Layout>
