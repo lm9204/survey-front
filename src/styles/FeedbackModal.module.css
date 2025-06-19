@@ -28,23 +28,26 @@
 }
 
 .input {
-  width: 90%;
+  width: 70%;
   padding: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid #F5F5F5;
+  background-color: #F5F5F5;
   border-radius: 8px;
-  margin-bottom: 16px;
-  font-size: 14px;
+  margin: 10px 0 20px;
+  font-size: 12px;
 }
 
 .submitButton {
-  width: 100%;
-  background: #333;
-  color: #fff;
+  width: 50%;
+  background: #D1D1D1;
+  color: #000;
   border: none;
   padding: 12px;
   border-radius: 30px;
-  margin-bottom: 10px;
+  margin-bottom: 25px;
   font-size: 16px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: bold;
   cursor: pointer;
 }
 
@@ -58,4 +61,53 @@
   color: #666;
   font-size: 14px;
   cursor: pointer;
+}
+
+.submitNote {
+  font-size: 12px;
+  text-decoration: underline;
+  color: #888;
+  background-color: transparent;
+  margin: 0 auto 10px;
+  border: 0;
+  display: block;
+  cursor: pointer;
+}
+
+.privacyConsent {
+  font-size: 12px;
+  color: #555;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-top: 1px solid #D1D1D1;
+  padding-top: 10px;
+}
+
+.privacyConsent input[type="checkbox"] {
+  cursor: pointer;
+}
+
+.underline {
+  text-decoration: underline;
+  cursor: pointer;
+  color: #007bff;
+}
+
+.privacyDetail {
+  font-size: 12px;
+  color: #444;
+  text-align: left;
+  margin-bottom: 12px;
+}
+
+.privacyDetail ul {
+  padding-left: 16px;
+  margin-bottom: 8px;
+}
+
+.privacyDetail li {
+  margin-bottom: 4px;
 }

@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import QuestionPage from '../components/QuestionPage';
 import SurveyNavigation from '../components/SurveyNavigation';
 import ProgressBar from '../components/ProgressBar';
 import { getSurveyData, submitSurvey } from '../services/surveyService';
 import styles from '../styles/SurveyPage.module.css';
+import { encodeResultData } from '../utils/base64Encoder';
 
 function SurveyPage() {
   const [pageIndex, setPageIndex] = useState(0);
   const [maxPage, setMaxPage] = useState(0);
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchResult = async () => {
@@ -57,6 +60,9 @@ function SurveyPage() {
     try {
       const response = await submitSurvey(questions, answers);
       console.log(response);
+
+      const base64 = encodeResultData(response);
+      navigate(`/result?d=${base64}&share=false`);
     } catch (error) {
       console.log(error);
     }
