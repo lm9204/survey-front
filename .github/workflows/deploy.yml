@@ -10,7 +10,9 @@ jobs:
 
     env:
       RELEASE_NAME: ${{ github.run_id }}_${{ github.run_number }}
+      USERNAME: ${{ secrets.ORACLE_USER }}
       REMOTE_PATH: /var/www/releases
+      CURRENT_PATH: /var/www/current
 
     steps:
       - name: Checkout repository
@@ -33,8 +35,10 @@ jobs:
           host: ${{ secrets.ORACLE_HOST }}
           username: ${{ secrets.ORACLE_USER }}
           key: ${{ secrets.ORACLE_KEY }}
+          port: 22
           script: |
-            mkdir -p $REMOTE_PATH/${{ env.RELEASE_NAME }}
+            sudo mkdir -p /var/www/releases/${{ github.run_id }}_${{ github.run_number }}
+            sudo chown -R ${{ secrets.ORACLE_USER }}:${{ secrets.ORACLE_USER }} /var/www/releases
 
       - name: Upload build folder to Oracle server
         uses: appleboy/scp-action@v0.1.7
@@ -42,16 +46,18 @@ jobs:
           host: ${{ secrets.ORACLE_HOST }}
           username: ${{ secrets.ORACLE_USER }}
           key: ${{ secrets.ORACLE_KEY }}
+          port: 22
           source: "build/*"
-          target: "$REMOTE_PATH/${{ env.RELEASE_NAME }}"
+          target: "/var/www/releases/${{ env.RELEASE_NAME }}"
           strip_components: 1
 
-      - name: Point current symlink to new release
+      - name: Update current symlink to new release
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.ORACLE_HOST }}
           username: ${{ secrets.ORACLE_USER }}
           key: ${{ secrets.ORACLE_KEY }}
+          port: 22
           script: |
-            ln -sfn $REMOTE_PATH/${{ env.RELEASE_NAME }} /var/www/current
-            echo "Deployed to $REMOTE_PATH/${{ env.RELEASE_NAME }}"
+            sudo ln -sfn /var/www/releases/${{ env.RELEASE_NAME }} ${{ env.CURRENT_PATH }}
+            echo "✅ Deployed release: ${{ env.RELEASE_NAME }}"
