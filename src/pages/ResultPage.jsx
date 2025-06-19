@@ -1,6 +1,6 @@
 // src/pages/ResultPage.jsx
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Layout from '../components/Layout';
 import styles from '../styles/ResultPage.module.css';
 import ResultHeader from '../components/ResultHeader';
@@ -16,6 +16,7 @@ import Toast from '../components/Toast';
 
 function ResultPage() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [isShared, setIsShared] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [typeData, setTypeData] = useState([]);
@@ -36,7 +37,7 @@ function ResultPage() {
         setTypeData(data);
       });
 
-      if (!share && !getSubmitted()) {
+      if ((share === null || share === 'false') && !getSubmitted()) {
         getRecommendations(parsed.traits).then((res) => {
           const combined = [...(res.most_similar || []), ...(res.least_similar || [])];
           setRecommendations(combined);
@@ -72,7 +73,7 @@ function ResultPage() {
     );
 
     if (!allFilled) {
-      alert('모든 활동에 대해 피드백을 남겨주세요.');
+      showToast('close', '모든 활동에 대해 피드백을 남겨주세요.');
       return;
     }
 
@@ -104,10 +105,7 @@ function ResultPage() {
 
     try {
       if (!isPrivacyChecked) {
-        showToast(
-          'close',
-          '개인정보 수집 및 이용에 동의해주세요.',
-        );
+        showToast('close','개인정보 수집 및 이용에 동의해주세요.',);
         return;
       }
 
@@ -116,24 +114,61 @@ function ResultPage() {
       if (response) {
         setSubmitted();
         setIsModalOpen(false);
-        showToast(
-          'check',
-          '피드백 제출 완료!',
-          '번호 입력이후 기프티콘이 발송됩니다.'
-        );
+        showToast('check','피드백 제출 완료!','번호 입력이후 기프티콘이 발송됩니다.');
       } else {
-        showToast(
-          'close',
-          '이미 제출한 휴대폰 번호입니다.'
-        );
+        showToast('close','이미 제출한 휴대폰 번호입니다.');
       }
     } catch (error) {
       console.log(error);
-      showToast(
-        'close',
-        '제출이 되지 않았어요..',
-        '잠시 후에 다시 시도해주세요!'
-      );
+      showToast('close', '제출이 되지 않았어요..', '잠시 후에 다시 시도해주세요!');
+    }
+  }
+
+  const handleShareResult = async () => {
+    const url = `${window.location.href}&share=true`;
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: `${typeData?.type}은 어떤 유형일까?`,
+          text: '설문결과를 공유해보세요!',
+          url,
+        });
+      } catch (error) {
+        console.log(error);
+        showToast('close', '공유 실패! 잠시 후에 다시 시도해주세요!',);
+      }
+    } else {
+      try {
+        await navigator.clipboard.writeText(url);
+        showToast('check', '링크가 클립보드에 복사되었어요!');
+      } catch (error) {
+        console.log(error);
+        showToast('close', '복사에 실패했습니다.');
+      }
+    }
+  }
+
+  const handleShareSurvey = async () => {
+    const url = `${window.location.origin}/survey`;
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: `나는 어떤 유형일까?`,
+          text: '설문조사를 통해 나만의 활동 유형을 찾아보세요!',
+          url,
+        });
+      } catch (error) {
+        console.log(error);
+        showToast('close', '공유 실패! 잠시 후에 다시 시도해주세요!',);
+      }
+    } else {
+      try {
+        await navigator.clipboard.writeText(url);
+        showToast('check', '링크가 클립보드에 복사되었어요!');
+      } catch (error) {
+        console.log(error);
+        showToast('close', '복사에 실패했습니다.');
+      }
     }
   }
 
@@ -148,8 +183,14 @@ function ResultPage() {
         )}
         
         <div className={styles.shareButtons}>
-          {!isShared && <ShareButton color="#ffffff" size={24} description={<>내 결과 <br /> 공유하기</>} />}
-          <ShareButton color="#ffffff" size={24} description={<>친구도 <br /> 참여해보라고 하기</>} />
+          {!isShared ?
+          <>
+            <ShareButton color="#ffffff" size={24} description={<>내 결과 <br /> 공유하기</>} onClick={handleShareResult} />
+            <ShareButton color="#ffffff" size={24} description={<>친구도 <br /> 참여해보라고 하기</>} onClick={handleShareSurvey} />
+          </>
+          : 
+          <ShareButton color="#ffffff" size={24} description={<>설문조사 <br /> 하러가기</>} onClick={() => navigate('/survey')} />
+          }
         </div>
 
         {!isShared && (
