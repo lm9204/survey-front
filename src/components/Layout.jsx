@@ -8,8 +8,8 @@ function Layout({ children }) {
   return (
     <div className={styles.wrapper}>
       <header className={styles.header}>
-        <div className={styles.logo} onClick={() => navigate('/')}>LOGO</div>
-        <div className={styles.menu}>☰</div>
+        <div className={styles.logo} onClick={() => navigate('/')}>Activity-I</div>
+        {/* <div className={styles.menu}>☰</div> */}
       </header>
       <main className={styles.container}>
         {children}
