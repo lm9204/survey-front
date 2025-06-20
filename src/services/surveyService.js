@@ -74,8 +74,6 @@ export const submitFeedbacks = async (feedbacks, phone) => {
       'feedbacks': feedbacks,
     }
 
-    console.log(payload);
-
     const userID = await getCreatedUserID();
     const response = await postFeedbacks(payload, userID);
 

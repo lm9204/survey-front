@@ -30,15 +30,15 @@ export const postFeedbacks = async (payload, userID) => {
     body: JSON.stringify(payload),
   });
 
-  if (!response.ok) {
+  if (response.status !== 200 && !response.status !== 400 && response.status !== 409) {
     throw new Error('에러');
   }
 
-  return await response.json();
+  return response;
 }
 
 export const fetchAimTypeData = async (typeCode) => {
-  const response = await fetch(`/api/aim-type/${typeCode}`, {
+  const response = await fetch(`/api/type/${typeCode}`, {
   method: 'GET',
   headers: { 'Content-Type': 'application/json' },
   });

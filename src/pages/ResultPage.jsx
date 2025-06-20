@@ -111,12 +111,14 @@ function ResultPage() {
 
       const response = await submitFeedbacks(payload, phone);
 
-      if (response) {
+      if (response.status === 200) {
         setSubmitted();
         setIsModalOpen(false);
-        showToast('check','피드백 제출 완료!','번호 입력이후 기프티콘이 발송됩니다.');
-      } else {
+        showToast('check','피드백 제출 완료!');
+      } else if (response.status === 409) {
         showToast('close','이미 제출한 휴대폰 번호입니다.');
+      } else {
+        showToast('close', '잘못된 형식의 핸드폰 번호입니다.');
       }
     } catch (error) {
       console.log(error);
@@ -125,21 +127,22 @@ function ResultPage() {
   }
 
   const handleShareResult = async () => {
-    const url = `${window.location.href}&share=true`;
+    const url = new URL(window.location.href);
+    url.searchParams.set('share', 'true');
+    
     if (navigator.share) {
       try {
         await navigator.share({
           title: `${typeData?.type}은 어떤 유형일까?`,
           text: '설문결과를 공유해보세요!',
-          url,
+          url: url.toString(),
         });
       } catch (error) {
         console.log(error);
-        showToast('close', '공유 실패! 잠시 후에 다시 시도해주세요!',);
       }
     } else {
       try {
-        await navigator.clipboard.writeText(url);
+        await navigator.clipboard.writeText(url.toString());
         showToast('check', '링크가 클립보드에 복사되었어요!');
       } catch (error) {
         console.log(error);
@@ -159,7 +162,6 @@ function ResultPage() {
         });
       } catch (error) {
         console.log(error);
-        showToast('close', '공유 실패! 잠시 후에 다시 시도해주세요!',);
       }
     } else {
       try {
